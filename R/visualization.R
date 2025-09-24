@@ -2842,6 +2842,7 @@ netVisual_chord_cell_internal <- function(net, color.use = NULL, group = NULL, c
 #' @param show.legend whether show the figure legend
 #' @param legend.pos.x,legend.pos.y adjust the legend position
 #' @param thresh threshold of the p-value for determining significant interaction when visualizing links at the level of ligands/receptors;
+#' @param min_prob threshold of the communication probability for determining significant interaction when visualizing links at the level of ligands/receptors;
 #' @param ... other parameters to chordDiagram
 #' @importFrom circlize circos.clear chordDiagram circos.track circos.text get.cell.meta.data
 #' @importFrom dplyr select %>% group_by summarize
@@ -2857,7 +2858,7 @@ netVisual_chord_gene <- function(object, slot.name = "net", color.use = NULL,
                                  link.visible = TRUE, scale = FALSE, directional = 1, link.target.prop = TRUE, reduce = -1,
                                  transparency = 0.4, link.border = NA,
                                  title.name = NULL, legend.pos.x = 20, legend.pos.y = 20, show.legend = TRUE,
-                                 thresh = 0.05,
+                                 thresh = 0.05, min_prob = 0
                                  ...){
   if (!is.null(pairLR.use)) {
     if (!is.data.frame(pairLR.use) | (sum(c("interaction_name","pathway_name") %in% colnames(pairLR.use)) == 0)) {
@@ -2930,8 +2931,8 @@ netVisual_chord_gene <- function(object, slot.name = "net", color.use = NULL,
   } else {
     targets.use <- levels(object@idents)
   }
-  # remove the interactions with zero values
-  df <- subset(net, prob > 0)
+  # remove the interactions smaller than the probability threshold
+  df <- subset(net, prob > min_prob)
 
   if (nrow(df) == 0) {
     stop("No signaling links are inferred! ")
