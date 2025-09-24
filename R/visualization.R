@@ -2858,7 +2858,7 @@ netVisual_chord_gene <- function(object, slot.name = "net", color.use = NULL,
                                  link.visible = TRUE, scale = FALSE, directional = 1, link.target.prop = TRUE, reduce = -1,
                                  transparency = 0.4, link.border = NA,
                                  title.name = NULL, legend.pos.x = 20, legend.pos.y = 20, show.legend = TRUE,
-                                 thresh = 0.05, min_prob = 0
+                                 thresh = 0.05, min_prob = 0,
                                  ...){
   if (!is.null(pairLR.use)) {
     if (!is.data.frame(pairLR.use) | (sum(c("interaction_name","pathway_name") %in% colnames(pairLR.use)) == 0)) {
